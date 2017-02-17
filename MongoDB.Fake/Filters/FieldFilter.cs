@@ -6,22 +6,40 @@ namespace MongoDB.Fake.Filters
 {
     internal class FieldFilter : IFilter
     {
+        private readonly string _fieldName;
         private readonly IFilter _child;
 
-        public FieldFilter(IFilter child)
+        public FieldFilter(string fieldName, IFilter child)
         {
+            _fieldName = fieldName;
             _child = child;
         }
 
         public Boolean Filter(BsonValue value)
         {
-            var fieldValue = GetFieldValue(value);
-            return _child.Filter(fieldValue);
+            if (TryGetFieldValue(value, out BsonValue fieldValue))
+            {
+                return _child.Filter(fieldValue);
+            }
+            return false;
         }
 
-        private BsonValue GetFieldValue(BsonValue value)
+        private bool TryGetFieldValue(BsonValue inputValue, out BsonValue fieldValue)
         {
-            throw new NotImplementedException();
+            fieldValue = null;
+            if (!inputValue.IsBsonDocument)
+            {
+                return false;
+            }
+
+            var document = inputValue.AsBsonDocument;
+            if (!document.Contains(_fieldName))
+            {
+                return false;
+            }
+
+            fieldValue = document[_fieldName];
+            return true;
         }
     }
 }

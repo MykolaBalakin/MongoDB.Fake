@@ -9,6 +9,7 @@ using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Fake.Filters;
+using MongoDB.Fake.Filters.Parsers;
 
 namespace MongoDB.Fake
 {
@@ -27,7 +28,7 @@ namespace MongoDB.Fake
         {
             _documents = documents;
 
-            _filterParser = new FilterParser();
+            _filterParser = FilterParser.Instance;
         }
 
         public override IMongoCollection<TDocument> WithWriteConcern(WriteConcern writeConcern)
