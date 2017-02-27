@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using MongoDB.Bson;
 
 namespace MongoDB.Fake.Filters.Parsers
@@ -20,7 +19,7 @@ namespace MongoDB.Fake.Filters.Parsers
         {
             var result = new Dictionary<string, IFilterParser>();
 
-            result.Add(Operators.Eq, new EqFilterParser());
+            result.Add(Operators.Eq, new EqualFilterParser());
 
             return result;
         }

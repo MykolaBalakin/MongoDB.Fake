@@ -5,11 +5,11 @@ using MongoDB.Bson;
 
 namespace MongoDB.Fake.Filters
 {
-    internal class EqFilter : IFilter
+    internal class EqualFilter : IFilter
     {
         private readonly BsonValue _specifiedValue;
 
-        public EqFilter(BsonValue specifiedValue)
+        public EqualFilter(BsonValue specifiedValue)
         {
             _specifiedValue = specifiedValue;
         }

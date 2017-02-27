@@ -1,13 +1,13 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace MongoDB.Fake.Tests.Filters.Cases.Equals
+namespace MongoDB.Fake.Tests.Filters.Cases.Equal
 {
-    internal class JsonImplicitEq : EqualsTestCaseBase
+    internal class JsonImplicitEqNull : EqualTestCaseBase
     {
         public override FilterDefinition<SimpleTestDocument> GetFilter()
         {
-            var filterDocument = BsonDocument.Parse("{IntField:1}");
+            var filterDocument = BsonDocument.Parse("{StringField:null}");
             return new BsonDocumentFilterDefinition<SimpleTestDocument>(filterDocument);
         }
     }
