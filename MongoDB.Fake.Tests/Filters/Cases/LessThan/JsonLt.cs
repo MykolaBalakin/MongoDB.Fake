@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace MongoDB.Fake.Tests.Filters.Cases.LessThen
+namespace MongoDB.Fake.Tests.Filters.Cases.LessThan
 {
-    internal class JsonLt : LessThenTestCaseBase
+    internal class JsonLt : LessThanTestCaseBase
     {
         public override FilterDefinition<SimpleTestDocument> GetFilter()
         {

@@ -1,13 +1,13 @@
 ﻿using MongoDB.Driver;
 
-namespace MongoDB.Fake.Tests.Filters.Cases.LessThen
+namespace MongoDB.Fake.Tests.Filters.Cases.LessThan
 {
-    internal class BuilderLt : LessThenTestCaseBase
+    internal class BuilderWhere : LessThanTestCaseBase
     {
         public override FilterDefinition<SimpleTestDocument> GetFilter()
         {
             var filterBuilder = Builders<SimpleTestDocument>.Filter;
-            return filterBuilder.Lt(d => d.IntField, 2);
+            return filterBuilder.Where(d => d.IntField < 2);
         }
     }
 }

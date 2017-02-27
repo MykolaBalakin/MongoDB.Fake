@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MongoDB.Fake.Tests.Filters.Cases.LessThen
+namespace MongoDB.Fake.Tests.Filters.Cases.LessThan
 {
-    internal abstract class LessThenTestCaseBase : TestCaseBase, IFilterTestCase<LessThenFilterTests, SimpleTestDocument>
+    internal abstract class LessThanTestCaseBase : TestCaseBase, IFilterTestCase<LessThanFilterTests, SimpleTestDocument>
     {
         public override IEnumerable<SimpleTestDocument> GetExpectedResult()
         {
