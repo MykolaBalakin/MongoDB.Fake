@@ -12,5 +12,6 @@ namespace MongoDB.Fake.Filters
         public const string Lt = "$lt";
         public const string Lte = "$lte";
         public const string And = "$and";
+        public const string Or = "$or";
     }
 }
