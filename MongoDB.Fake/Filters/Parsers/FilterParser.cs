@@ -25,6 +25,8 @@ namespace MongoDB.Fake.Filters.Parsers
             result.Add(Operators.Lt, new LessThanFilterParser());
             result.Add(Operators.Lte, new LessThanOrEqualFilterParser());
 
+            result.Add(Operators.And, new AndFilterParser(rootParser));
+
             return result;
         }
 
