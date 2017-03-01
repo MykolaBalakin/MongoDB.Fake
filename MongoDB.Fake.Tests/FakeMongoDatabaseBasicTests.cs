@@ -13,6 +13,7 @@ namespace MongoDB.Fake.Tests
             var collection = database.GetCollection<BsonDocument>("fake-collection");
 
             collection.Should().NotBeNull();
+            collection.Database.Should().BeSameAs(database);
         }
     }
 }

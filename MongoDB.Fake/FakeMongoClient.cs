@@ -1,11 +1,9 @@
-﻿using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
-using MongoDB.Bson;
-using MongoDB.Driver.Core.Clusters;
 using System.Threading;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Core.Clusters;
 
 namespace MongoDB.Fake
 {
@@ -60,7 +58,7 @@ namespace MongoDB.Fake
 
         private IMongoDatabase CreateDatabase(string name)
         {
-            return new FakeMongoDatabase();
+            return new FakeMongoDatabase(this);
         }
     }
 }

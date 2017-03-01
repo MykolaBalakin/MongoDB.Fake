@@ -1,19 +1,17 @@
-﻿using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
-using MongoDB.Bson;
 using System.Threading;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace MongoDB.Fake
 {
     public class FakeMongoDatabase : SyncMongoDatabase
     {
+        private readonly FakeMongoClient _client;
         private readonly ConcurrentDictionary<String, BsonDocumentCollection> _collections;
 
-        public override IMongoClient Client
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override IMongoClient Client => _client;
 
         public override DatabaseNamespace DatabaseNamespace
         {
@@ -30,10 +28,16 @@ namespace MongoDB.Fake
             _collections = new ConcurrentDictionary<String, BsonDocumentCollection>();
         }
 
+        internal FakeMongoDatabase(FakeMongoClient client)
+            :this()
+        {
+            _client = client;
+        }
+
         public override IMongoCollection<TDocument> GetCollection<TDocument>(string name, MongoCollectionSettings settings = null)
         {
             var collection = _collections.GetOrAdd(name, key => new BsonDocumentCollection());
-            return new FakeMongoCollection<TDocument>(collection);
+            return new FakeMongoCollection<TDocument>(this, collection);
         }
 
         public override void CreateCollection(string name, CreateCollectionOptions options = null, CancellationToken cancellationToken = default(CancellationToken))

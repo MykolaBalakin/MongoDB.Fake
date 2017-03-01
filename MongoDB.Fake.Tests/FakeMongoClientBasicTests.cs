@@ -13,6 +13,7 @@ namespace MongoDB.Fake.Tests
             var database = client.GetDatabase("fake-database");
 
             database.Should().NotBeNull();
+            database.Client.Should().BeSameAs(client);
         }
     }
 }

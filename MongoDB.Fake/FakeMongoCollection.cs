@@ -1,50 +1,28 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using MongoDB.Fake.Filters;
 using MongoDB.Fake.Filters.Parsers;
 
 namespace MongoDB.Fake
 {
     public class FakeMongoCollection<TDocument> : SyncMongoCollection<TDocument>
     {
-        private IFilterParser _filterParser;
+        private readonly IFilterParser _filterParser;
+        private readonly BsonDocumentCollection _documents;
 
-        private BsonDocumentCollection _documents;
-
-        public FakeMongoCollection()
-            : this(new BsonDocumentCollection())
-        {
-        }
-
-        public FakeMongoCollection(BsonDocumentCollection documents)
-        {
-            _documents = documents;
-
-            _filterParser = FilterParser.Instance;
-        }
-
-        public override IMongoCollection<TDocument> WithWriteConcern(WriteConcern writeConcern)
-        {
-            throw new NotImplementedException();
-        }
+        private readonly FakeMongoDatabase _database;
 
         public override CollectionNamespace CollectionNamespace
         {
             get { throw new NotImplementedException(); }
         }
 
-        public override IMongoDatabase Database
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override IMongoDatabase Database => _database;
 
         public override IBsonSerializer<TDocument> DocumentSerializer
         {
@@ -59,6 +37,24 @@ namespace MongoDB.Fake
         public override MongoCollectionSettings Settings
         {
             get { throw new NotImplementedException(); }
+        }
+
+        public FakeMongoCollection()
+            : this(new BsonDocumentCollection())
+        {
+        }
+
+        public FakeMongoCollection(BsonDocumentCollection documents)
+        {
+            _documents = documents;
+
+            _filterParser = FilterParser.Instance;
+        }
+
+        internal FakeMongoCollection(FakeMongoDatabase database, BsonDocumentCollection documents)
+            : this(documents)
+        {
+            _database = database;
         }
 
         public override IAsyncCursor<TProjection> FindSync<TProjection>(FilterDefinition<TDocument> filter, FindOptions<TDocument, TProjection> options = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -164,6 +160,11 @@ namespace MongoDB.Fake
         }
 
         public override IMongoCollection<TDocument> WithReadPreference(ReadPreference readPreference)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IMongoCollection<TDocument> WithWriteConcern(WriteConcern writeConcern)
         {
             throw new NotImplementedException();
         }
