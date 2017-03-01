@@ -7,6 +7,7 @@ namespace MongoDB.Fake.Filters
     internal static class Operators
     {
         public const string Eq = "$eq";
+        public const string Ne = "$ne";
         public const string Gt = "$gt";
         public const string Gte = "$gte";
         public const string Lt = "$lt";

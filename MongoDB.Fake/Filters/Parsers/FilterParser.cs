@@ -20,6 +20,7 @@ namespace MongoDB.Fake.Filters.Parsers
             var result = new Dictionary<string, IFilterParser>();
 
             result.Add(Operators.Eq, new EqualFilterParser());
+            result.Add(Operators.Ne, new NotEqualFilterParser());
             result.Add(Operators.Gt, new GreaterThanFilterParser());
             result.Add(Operators.Gte, new GreaterThanOrEqualFilterParser());
             result.Add(Operators.Lt, new LessThanFilterParser());
