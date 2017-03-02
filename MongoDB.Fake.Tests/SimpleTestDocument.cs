@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MongoDB.Fake.Tests.Filters
+namespace MongoDB.Fake.Tests
 {
     public class SimpleTestDocument
     {

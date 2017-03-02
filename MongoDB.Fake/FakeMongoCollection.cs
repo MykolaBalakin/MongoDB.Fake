@@ -66,12 +66,31 @@ namespace MongoDB.Fake
 
         public override TProjection FindOneAndDelete<TProjection>(FilterDefinition<TDocument> filter, FindOneAndDeleteOptions<TDocument, TProjection> options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var documentToDelete = Filter(filter).FirstOrDefault();
+            if (documentToDelete == null)
+            {
+                return default(TProjection);
+            }
+            _documents.Remove(documentToDelete);
+            var projectedDocument = Project(new[] { documentToDelete }, options?.Projection).Single();
+            return projectedDocument;
         }
 
         public override TProjection FindOneAndReplace<TProjection>(FilterDefinition<TDocument> filter, TDocument replacement, FindOneAndReplaceOptions<TDocument, TProjection> options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var documentToDelete = Filter(filter).FirstOrDefault();
+            if (documentToDelete == null)
+            {
+                return default(TProjection);
+            }
+
+            _documents.Remove(documentToDelete);
+
+            var documentToAdd = SerializeDocument(replacement);
+            _documents.Add(documentToAdd);
+
+            var projectedDocument = Project(new[] { documentToDelete }, options?.Projection).Single();
+            return projectedDocument;
         }
 
         public override TProjection FindOneAndUpdate<TProjection>(FilterDefinition<TDocument> filter, UpdateDefinition<TDocument> update, FindOneAndUpdateOptions<TDocument, TProjection> options = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -194,11 +213,33 @@ namespace MongoDB.Fake
 
             foreach (var document in documents)
             {
-                using (var reader = new BsonDocumentReader(document))
-                {
-                    var deserializationContext = BsonDeserializationContext.CreateRoot(reader);
-                    yield return serializer.Deserialize(deserializationContext);
-                }
+                yield return DeserializeDocument(document, serializer);
+            }
+        }
+
+        private BsonDocument SerializeDocument<T>(T document)
+        {
+            var serializer = BsonSerializer.LookupSerializer<T>();
+            return SerializeDocument(document, serializer);
+        }
+
+        private BsonDocument SerializeDocument<T>(T document, IBsonSerializer<T> serializer)
+        {
+            return document.ToBsonDocument(serializer);
+        }
+
+        private T DeserializeDocument<T>(BsonDocument document)
+        {
+            var serializer = BsonSerializer.LookupSerializer<T>();
+            return DeserializeDocument(document, serializer);
+        }
+
+        private T DeserializeDocument<T>(BsonDocument document, IBsonSerializer<T> serializer)
+        {
+            using (var reader = new BsonDocumentReader(document))
+            {
+                var deserializationContext = BsonDeserializationContext.CreateRoot(reader);
+                return serializer.Deserialize(deserializationContext);
             }
         }
     }
