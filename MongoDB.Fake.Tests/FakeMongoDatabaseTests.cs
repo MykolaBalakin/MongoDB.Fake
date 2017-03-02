@@ -4,7 +4,7 @@ using Xunit;
 
 namespace MongoDB.Fake.Tests
 {
-    public class FakeMongoDatabaseBasicTests
+    public class FakeMongoDatabaseTests
     {
         [Fact]
         public void GetCollectionReturnsCollection()

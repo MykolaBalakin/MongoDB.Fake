@@ -1,10 +1,9 @@
 ﻿using FluentAssertions;
-using System;
 using Xunit;
 
 namespace MongoDB.Fake.Tests
 {
-    public class FakeMongoClientBasicTests
+    public class FakeMongoClientTests
     {
         [Fact]
         public void GetDatabaseReturnsDatabase()
