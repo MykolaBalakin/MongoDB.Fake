@@ -2,5 +2,9 @@
 {
     public class NotEqualFilterTests : FilterTestBase<NotEqualFilterTests, SimpleTestDocument>
     {
+        public NotEqualFilterTests(MongoCollectionProviderFixture<SimpleTestDocument> mongoCollectionProvider)
+            : base(mongoCollectionProvider)
+        {
+        }
     }
 }

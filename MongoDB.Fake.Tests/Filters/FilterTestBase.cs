@@ -9,9 +9,11 @@ using Xunit;
 
 namespace MongoDB.Fake.Tests.Filters
 {
-    public abstract class FilterTestBase<TFilter, TDocument>
+    public abstract class FilterTestBase<TFilter, TDocument> : IClassFixture<MongoCollectionProviderFixture<TDocument>>
         where TFilter : FilterTestBase<TFilter, TDocument>
     {
+        private readonly MongoCollectionProviderFixture<TDocument> _mongoCollectionProvider;
+
         public static IEnumerable<object[]> GetTestCases()
         {
             var assembly = typeof(FilterTestBase<,>).GetTypeInfo().Assembly;
@@ -28,6 +30,11 @@ namespace MongoDB.Fake.Tests.Filters
         private static object[] CreateTestParameters(IFilterTestCase<TFilter, TDocument> testCase)
         {
             return new object[] { testCase };
+        }
+
+        public FilterTestBase(MongoCollectionProviderFixture<TDocument> mongoCollectionProvider)
+        {
+            _mongoCollectionProvider = mongoCollectionProvider;
         }
 
         [Theory]
@@ -48,21 +55,12 @@ namespace MongoDB.Fake.Tests.Filters
 
         private IMongoCollection<TDocument> CreateMongoCollection(IFilterTestCase<TDocument> testCase)
         {
-            return CreateFakeMongoCollection(testCase);
-        }
-
-        private IMongoCollection<TDocument> CreateFakeMongoCollection(IFilterTestCase<TDocument> testCase)
-        {
-            var documentCollection = new BsonDocumentCollection();
-            var testData = testCase.GetTestData();
-            foreach (var document in testData)
+            var collectionName = testCase.GetType().FullName;
+            if (collectionName.StartsWith("MongoDB.Fake.Tests.Filters.Cases."))
             {
-                var bsonDocument = document.ToBsonDocument();
-                documentCollection.Add(bsonDocument);
+                collectionName = collectionName.Substring("MongoDB.Fake.Tests.Filters.Cases.".Length);
             }
-
-            var mongoCollection = new FakeMongoCollection<TDocument>(documentCollection);
-            return mongoCollection;
+            return _mongoCollectionProvider.GetCollection(collectionName, testCase.GetTestData());
         }
 
         private string GetFilterDescription(FilterDefinition<TDocument> filter)
