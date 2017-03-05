@@ -100,12 +100,17 @@ namespace MongoDB.Fake
 
         public override void InsertOne(TDocument document, InsertOneOptions options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var bsonDocument = SerializeDocument(document);
+            _documents.Add(bsonDocument);
         }
 
         public override void InsertMany(IEnumerable<TDocument> documents, InsertManyOptions options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            foreach (var document in documents)
+            {
+                var bsonDocument = SerializeDocument(document);
+                _documents.Add(bsonDocument);
+            }
         }
 
         public override BulkWriteResult<TDocument> BulkWrite(IEnumerable<WriteModel<TDocument>> requests, BulkWriteOptions options = null, CancellationToken cancellationToken = default(CancellationToken))

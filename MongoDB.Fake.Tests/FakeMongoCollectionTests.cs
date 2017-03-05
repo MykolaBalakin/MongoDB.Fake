@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FluentAssertions;
 using MongoDB.Driver;
 using Xunit;
@@ -72,7 +71,7 @@ namespace MongoDB.Fake.Tests
             var documentToReplace = CreateTestData().First();
             var newDocument = CreateTestData().First();
             newDocument.IntField = 4;
-            var expectedRemainedDocuments = CreateTestData().Skip(1)
+            var expectedAllDocuments = CreateTestData().Skip(1)
                 .Union(new[] { newDocument })
                 .ToList();
 
@@ -81,10 +80,10 @@ namespace MongoDB.Fake.Tests
                 .ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();
-            var remainedDocumets = collection.Find(d => true).ToList();
+            var actualAllDocuments = collection.Find(d => true).ToList();
 
             actualOldDocument.ShouldBeEquivalentTo(documentToReplace);
-            remainedDocumets.ShouldAllBeEquivalentTo(expectedRemainedDocuments);
+            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
         }
 
         [Fact]
@@ -92,7 +91,7 @@ namespace MongoDB.Fake.Tests
         {
             var newDocument = CreateTestData().First();
             newDocument.IntField = 4;
-            var expectedRemainedDocuments = CreateTestData().ToList();
+            var expectedAllDocuments = CreateTestData().ToList();
 
             var collection = CreateMongoCollection(nameof(FindOneAndReplaceReturnsOldDocumentAndReplacesIt));
             // TODO: Replace filter to "d => false" when $type operator will be implemented
@@ -100,10 +99,50 @@ namespace MongoDB.Fake.Tests
                 .ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();
-            var remainedDocumets = collection.Find(d => true).ToList();
+            var actualAllDocuments = collection.Find(d => true).ToList();
 
             actualOldDocument.Should().BeNull();
-            remainedDocumets.ShouldAllBeEquivalentTo(expectedRemainedDocuments);
+            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+        }
+
+        [Fact]
+        public void InsertOneInsertsDocument()
+        {
+            var newDocument = new SimpleTestDocument { Id = new Guid("00000000-0000-0000-0000-000000000004") };
+            var expectedAllDocuments = CreateTestData()
+                .Union(new[] { newDocument })
+                .ToList();
+
+            var collection = CreateMongoCollection(nameof(InsertOneInsertsDocument));
+            collection.InsertOneAsync(newDocument)
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+            var actualAllDocuments = collection.Find(d => true).ToList();
+
+            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+        }
+
+        [Fact]
+        public void InsertManyInsertsDocuments()
+        {
+            var newDocuments = new[]
+            {
+                new SimpleTestDocument { Id = new Guid("00000000-0000-0000-0000-000000000004") },
+                new SimpleTestDocument { Id = new Guid("00000000-0000-0000-0000-000000000005") }
+            };
+            var expectedAllDocuments = CreateTestData()
+                .Union(newDocuments)
+                .ToList();
+
+            var collection = CreateMongoCollection(nameof(InsertManyInsertsDocuments));
+            collection.InsertManyAsync(newDocuments)
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+            var actualAllDocuments = collection.Find(d => true).ToList();
+
+            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
         }
 
         private IMongoCollection<SimpleTestDocument> CreateMongoCollection(string collectionName)
