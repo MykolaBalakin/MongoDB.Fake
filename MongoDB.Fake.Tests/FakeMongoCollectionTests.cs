@@ -145,6 +145,34 @@ namespace MongoDB.Fake.Tests
             actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
         }
 
+        [Fact]
+        public void CountReturnsTotalCountWithEmptyFilter()
+        {
+            var expectedCount = CreateTestData().Count();
+
+            var collection = CreateMongoCollection(nameof(CountReturnsTotalCountWithEmptyFilter));
+            var actualCount = collection.CountAsync(d => true)
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+
+            actualCount.Should().Be(expectedCount);
+        }
+
+        [Fact]
+        public void CountReturnsActualCountWithFilter()
+        {
+            var expectedCount = CreateTestData().Count(d => d.IntField == 2);
+
+            var collection = CreateMongoCollection(nameof(CountReturnsActualCountWithFilter));
+            var actualCount = collection.CountAsync(d => d.IntField == 2)
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+
+            actualCount.Should().Be(expectedCount);
+        }
+
         private IMongoCollection<SimpleTestDocument> CreateMongoCollection(string collectionName)
         {
             var testData = CreateTestData();
