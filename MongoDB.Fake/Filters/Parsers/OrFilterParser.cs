@@ -1,33 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using MongoDB.Bson;
+﻿using System.Collections.Generic;
 
 namespace MongoDB.Fake.Filters.Parsers
 {
-    internal class OrFilterParser : IFilterParser
+    internal class OrFilterParser : AggregatorFilterParserBase
     {
-        private readonly IFilterParser _rootFilterParser;
-
         public OrFilterParser(IFilterParser rootFilterParser)
+            : base(rootFilterParser)
         {
-            _rootFilterParser = rootFilterParser;
         }
 
-        public IFilter Parse(BsonValue filter)
+        protected override IFilter CreateFilter(IReadOnlyCollection<IFilter> childrenFilters)
         {
-            if (!filter.IsBsonArray)
-            {
-                throw new ArgumentOutOfRangeException(nameof(filter));
-            }
-
-            var childrenFilters = new List<IFilter>();
-            var filterStatements = filter.AsBsonArray;
-            foreach (var filterStatement in filterStatements)
-            {
-                var childFilter = _rootFilterParser.Parse(filterStatement);
-                childrenFilters.Add(childFilter);
-            }
-
             return new OrFilter(childrenFilters);
         }
     }

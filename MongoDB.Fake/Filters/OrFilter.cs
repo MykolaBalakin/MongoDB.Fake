@@ -7,9 +7,9 @@ namespace MongoDB.Fake.Filters
 {
     internal class OrFilter : IFilter
     {
-        private readonly ICollection<IFilter> _children;
+        private readonly IReadOnlyCollection<IFilter> _children;
 
-        public OrFilter(ICollection<IFilter> children)
+        public OrFilter(IReadOnlyCollection<IFilter> children)
         {
             _children = children;
         }
