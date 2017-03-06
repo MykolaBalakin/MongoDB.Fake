@@ -135,22 +135,35 @@ namespace MongoDB.Fake
 
         public override DeleteResult DeleteMany(FilterDefinition<TDocument> filter, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            return DeleteMany(filter, null, cancellationToken);
         }
 
         public override DeleteResult DeleteMany(FilterDefinition<TDocument> filter, DeleteOptions options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var documentsToDelete = Filter(filter).ToList();
+            foreach (var documentToDelete in documentsToDelete)
+            {
+                _documents.Remove(documentToDelete);
+            }
+
+            return new DeleteResult.Acknowledged(documentsToDelete.Count);
         }
 
         public override DeleteResult DeleteOne(FilterDefinition<TDocument> filter, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            return DeleteOne(filter, null, cancellationToken);
         }
 
         public override DeleteResult DeleteOne(FilterDefinition<TDocument> filter, DeleteOptions options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            var documentToDelete = Filter(filter).FirstOrDefault();
+            if (documentToDelete == null)
+            {
+                return new DeleteResult.Acknowledged(0);
+            }
+
+            _documents.Remove(documentToDelete);
+            return new DeleteResult.Acknowledged(1);
         }
 
         public override IAsyncCursor<TResult> Aggregate<TResult>(PipelineDefinition<TDocument, TResult> pipeline, AggregateOptions options = null, CancellationToken cancellationToken = default(CancellationToken))

@@ -173,6 +173,81 @@ namespace MongoDB.Fake.Tests
             actualCount.Should().Be(expectedCount);
         }
 
+        [Fact]
+        public void DeleteOneDeletesOneDocument()
+        {
+            var documentIdToDelete = new Guid("00000000-0000-0000-0000-000000000002");
+            var expectedAllDocuments = CreateTestData()
+                .Where(d => d.Id != documentIdToDelete)
+                .ToList();
+            var expectedResult = new DeleteResult.Acknowledged(1);
+
+            var collection = CreateMongoCollection(nameof(DeleteOneDeletesOneDocument));
+            var actualResult = collection.DeleteOneAsync(d => d.Id == documentIdToDelete)
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+            var actualAllDocuments = collection.Find(d => true).ToList();
+
+            actualResult.ShouldBeEquivalentTo(expectedResult);
+            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+        }
+
+        [Fact]
+        public void DeleteOneDoesNothingWithFilter()
+        {
+            var expectedAllDocuments = CreateTestData().ToList();
+            var expectedResult = new DeleteResult.Acknowledged(0);
+
+            var collection = CreateMongoCollection(nameof(DeleteOneDoesNothingWithFilter));
+            // TODO: Replace filter to "d => false" when $type operator will be implemented
+            var actualResult = collection.DeleteOneAsync(d => d.Id == Guid.Empty)
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+            var actualAllDocuments = collection.Find(d => true).ToList();
+
+            actualResult.ShouldBeEquivalentTo(expectedResult);
+            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+        }
+
+        [Fact]
+        public void DeleteManyDeletesDocuments()
+        {
+            var expectedAllDocuments = CreateTestData()
+              .Where(d => d.IntField != 2)
+              .ToList();
+            var expectedResult = new DeleteResult.Acknowledged(2);
+
+            var collection = CreateMongoCollection(nameof(DeleteManyDeletesDocuments));
+            var actualResult = collection.DeleteManyAsync(d => d.IntField == 2)
+               .ConfigureAwait(false)
+               .GetAwaiter()
+               .GetResult();
+            var actualAllDocuments = collection.Find(d => true).ToList();
+
+            actualResult.ShouldBeEquivalentTo(expectedResult);
+            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+        }
+
+        [Fact]
+        public void DeleteManyDoesNothingWithFilter()
+        {
+            var expectedAllDocuments = CreateTestData().ToList();
+            var expectedResult = new DeleteResult.Acknowledged(0);
+
+            var collection = CreateMongoCollection(nameof(DeleteManyDoesNothingWithFilter));
+            // TODO: Replace filter to "d => false" when $type operator will be implemented
+            var actualResult = collection.DeleteManyAsync(d => d.Id == Guid.Empty)
+               .ConfigureAwait(false)
+               .GetAwaiter()
+               .GetResult();
+            var actualAllDocuments = collection.Find(d => true).ToList();
+
+            actualResult.ShouldBeEquivalentTo(expectedResult);
+            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+        }
+
         private IMongoCollection<SimpleTestDocument> CreateMongoCollection(string collectionName)
         {
             var testData = CreateTestData();
@@ -194,7 +269,7 @@ namespace MongoDB.Fake.Tests
             yield return new SimpleTestDocument
             {
                 Id = new Guid("00000000-0000-0000-0000-000000000003"),
-                IntField = 3
+                IntField = 2
             };
         }
     }
