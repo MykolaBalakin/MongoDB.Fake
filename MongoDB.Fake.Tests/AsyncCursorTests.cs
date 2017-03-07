@@ -53,5 +53,19 @@ namespace MongoDB.Fake.Tests
 
             action.ShouldThrow<InvalidOperationException>();
         }
+
+        [Fact]
+        public void CurrentReturnsDataAfterMoveNextAsync()
+        {
+            var data = new[] { 1 };
+            var cursor = new AsyncCursor<Int32>(data);
+
+            cursor.MoveNextAsync()
+                .ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult()
+                .Should().BeTrue();
+            cursor.Current.Should().BeSameAs(data);
+        }
     }
 }
