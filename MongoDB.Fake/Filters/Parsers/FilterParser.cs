@@ -28,6 +28,7 @@ namespace MongoDB.Fake.Filters.Parsers
 
             result.Add(Operators.And, new AndFilterParser(rootParser));
             result.Add(Operators.Or, new OrFilterParser(rootParser));
+            result.Add(Operators.Nor, new NotOrFilterParser(rootParser));
             result.Add(Operators.Not, new NotFilterParser(rootParser));
 
             return result;
