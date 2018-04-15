@@ -31,6 +31,8 @@ namespace MongoDB.Fake.Filters.Parsers
             result.Add(Operators.Nor, new NotOrFilterParser(rootParser));
             result.Add(Operators.Not, new NotFilterParser(rootParser));
 
+            result.Add(Operators.Type, new TypeFilterParser());
+
             return result;
         }
 

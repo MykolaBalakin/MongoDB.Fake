@@ -17,5 +17,7 @@ namespace MongoDB.Fake.Filters
         public const string Or = "$or";
         public const string Nor = "$nor";
         public const string Not = "$not";
+
+        public const string Type = "$type";
     }
 }
