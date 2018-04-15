@@ -1,5 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <PackageId>MongoDB.Fake</PackageId>
+    <Title>MongoDB.Fake</Title>
+    <Authors>balakin</Authors>
+    <Description>MongoDB.Fake is an in-memory implementation of IMongoClient, IMongoDatabase and IMongoCollection for unit test purposes.</Description>
+    <PackageProjectUrl>http://github.com/nbalakin/MongoDB.Fake</PackageProjectUrl>
+    <RepositoryUrl>http://github.com/nbalakin/MongoDB.Fake</RepositoryUrl>
+    <PackageTags>mongo;mongodb;unit;test;fake</PackageTags>
+  </PropertyGroup>
+  <PropertyGroup>
     <TargetFramework>netstandard1.5</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
