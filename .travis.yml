@@ -1,0 +1,7 @@
+language: csharp
+solution: MongoDB.Fake.sln
+dotnet: 2.0.0
+mono: none
+script:
+  - dotnet build
+  - dotnet test MongoDB.Fake.Tests
