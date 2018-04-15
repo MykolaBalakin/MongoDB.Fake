@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -55,16 +56,13 @@ namespace MongoDB.Fake.Tests
         }
 
         [Fact]
-        public void CurrentReturnsDataAfterMoveNextAsync()
+        public async Task CurrentReturnsDataAfterMoveNextAsync()
         {
             var data = new[] { 1 };
             var cursor = new AsyncCursor<Int32>(data);
 
-            cursor.MoveNextAsync()
-                .ConfigureAwait(false)
-                .GetAwaiter()
-                .GetResult()
-                .Should().BeTrue();
+            var moveNextResult = await cursor.MoveNextAsync();
+            moveNextResult.Should().BeTrue();
             cursor.Current.Should().BeSameAs(data);
         }
     }
