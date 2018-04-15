@@ -49,8 +49,7 @@ namespace MongoDB.Fake.Tests
             var expectedRemainedDocuments = CreateTestData().ToList();
 
             var collection = CreateMongoCollection(nameof(FindOneAndDeleteReturnsNullWhenNothingToDelete));
-            // TODO: Replace filter to "d => false" when $type operator will be implemented
-            var actualDeletedDocument = await collection.FindOneAndDeleteAsync(d => d.Id == Guid.Empty);
+            var actualDeletedDocument = await collection.FindOneAndDeleteAsync(d => false);
             var remainedDocumets = collection.Find(d => true).ToList();
 
             actualDeletedDocument.Should().BeNull();
@@ -83,8 +82,7 @@ namespace MongoDB.Fake.Tests
             var expectedAllDocuments = CreateTestData().ToList();
 
             var collection = CreateMongoCollection(nameof(FindOneAndReplaceReturnsOldDocumentAndReplacesIt));
-            // TODO: Replace filter to "d => false" when $type operator will be implemented
-            var actualOldDocument = await collection.FindOneAndReplaceAsync(d => d.Id == Guid.Empty, newDocument);
+            var actualOldDocument = await collection.FindOneAndReplaceAsync(d => false, newDocument);
             var actualAllDocuments = collection.Find(d => true).ToList();
 
             actualOldDocument.Should().BeNull();
@@ -171,8 +169,7 @@ namespace MongoDB.Fake.Tests
             var expectedResult = new DeleteResult.Acknowledged(0);
 
             var collection = CreateMongoCollection(nameof(DeleteOneDoesNothingWithFilter));
-            // TODO: Replace filter to "d => false" when $type operator will be implemented
-            var actualResult = await collection.DeleteOneAsync(d => d.Id == Guid.Empty);
+            var actualResult = await collection.DeleteOneAsync(d => false);
             var actualAllDocuments = collection.Find(d => true).ToList();
 
             actualResult.ShouldBeEquivalentTo(expectedResult);
@@ -202,8 +199,7 @@ namespace MongoDB.Fake.Tests
             var expectedResult = new DeleteResult.Acknowledged(0);
 
             var collection = CreateMongoCollection(nameof(DeleteManyDoesNothingWithFilter));
-            // TODO: Replace filter to "d => false" when $type operator will be implemented
-            var actualResult = await collection.DeleteManyAsync(d => d.Id == Guid.Empty);
+            var actualResult = await collection.DeleteManyAsync(d => false);
             var actualAllDocuments = collection.Find(d => true).ToList();
 
             actualResult.ShouldBeEquivalentTo(expectedResult);
