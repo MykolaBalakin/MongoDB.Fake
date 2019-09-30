@@ -1,7 +1,26 @@
 language: csharp
-solution: MongoDB.Fake.sln
-dotnet: 2.0.0
+dotnet: 2.1.802
 mono: none
+
+solution: MongoDB.Fake.sln
+
+git:
+  depth: false
+
+addons:
+  sonarcloud:
+    organization: "nbalakin"
+    token:
+      secure: SbfMzczNMaXC1jg+tnBkxgIzpgj19YZXW0MCbVWdjsh2IKetqwwUVQlnArML9Sjb4Ekkk/mEaTG7FdBTLZ9pHNG5b/fYK7tf2OYMfxNhW8P+CgjQXhSo+X1WoC+kOOtCychOOVgoSnBruPUe+lnYJO7M/oAd0PkFkRj7sB1Aaejv7Amgleebk3DunVid1iY/1wTy1ATi1EV6PQyPcIpZ+dIPTmwopLaiYBmmTOun7qMclSa+y1EeZXq6kaW/R53vucf12Wq+Ks7Iy4fDMMzsHv78QJ/Weh3QOxxEAQ5/wPKPTGyF8EzP88AwvJ6Ktu2ritxMcVz27ICPxA65YdaE24S87HnwEP2VYc2g6JJ6aTMX+FJlSMx3vFNW798ZQETl0Rl0Kv7IdWAW+N4kLDeK4UvQ0GJRcyrkXPR84HBkCMgMVOP3fqMSiQy3WNuBOFJ7wxet6gm7UDX5e8pgd0IvJ+ngByzFFciO9lEud/ZGpMeudVuXRiDhdgPQnBTYVhAekUsFBZbhXbEfXrvUx3bBgZaGeGnkcDLXhphALr9ogySY7jW61X4JZWw7iruNagSqzLcwNPZRUPs9IhpU/+Nuu1PRN8oMIot6Q7+JxX+0UCJ9sFUa2Wao0PjGZMvVRlVxaQAp3wvrSbtcWSS1OQ8BNuyiF4rbRMylSRuBDnsJt0Q= 
+
+install:
+  - dotnet tool install --global dotnet-sonarscanner
+
+before_script:
+  - export PATH="$PATH:$HOME/.dotnet/tools"
+
 script:
+  - set -e
+  - dotnet sonarscanner begin -k:nbalakin_MongoDB.Fake
   - dotnet build
-  - dotnet test MongoDB.Fake.Tests
+  - dotnet sonarscanner end
