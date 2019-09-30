@@ -247,12 +247,6 @@ namespace MongoDB.Fake
             return document.ToBsonDocument(serializer);
         }
 
-        private T DeserializeDocument<T>(BsonDocument document)
-        {
-            var serializer = BsonSerializer.LookupSerializer<T>();
-            return DeserializeDocument(document, serializer);
-        }
-
         private T DeserializeDocument<T>(BsonDocument document, IBsonSerializer<T> serializer)
         {
             using (var reader = new BsonDocumentReader(document))

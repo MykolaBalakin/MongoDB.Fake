@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -13,12 +14,11 @@ namespace MongoDB.Fake.Tests
             var data = new[] { 1 };
             var cursor = new AsyncCursor<Int32>(data);
 
-            Action action = () =>
+            using (cursor)
             {
-                var c = cursor.Current;
-            };
-
-            action.Should().Throw<InvalidOperationException>();
+                Func<IEnumerable<Int32>> func = () => cursor.Current;
+                func.Should().Throw<InvalidOperationException>();
+            }
         }
 
         [Fact]
@@ -27,8 +27,11 @@ namespace MongoDB.Fake.Tests
             var data = new[] { 1 };
             var cursor = new AsyncCursor<Int32>(data);
 
-            cursor.MoveNext().Should().BeTrue();
-            cursor.Current.Should().BeSameAs(data);
+            using (cursor)
+            {
+                cursor.MoveNext().Should().BeTrue();
+                cursor.Current.Should().BeSameAs(data);
+            }
         }
 
         [Fact]
@@ -37,8 +40,11 @@ namespace MongoDB.Fake.Tests
             var data = new[] { 1 };
             var cursor = new AsyncCursor<Int32>(data);
 
-            cursor.MoveNext().Should().BeTrue();
-            cursor.MoveNext().Should().BeFalse();
+            using (cursor)
+            {
+                cursor.MoveNext().Should().BeTrue();
+                cursor.MoveNext().Should().BeFalse();
+            }
         }
 
         [Fact]
@@ -47,12 +53,15 @@ namespace MongoDB.Fake.Tests
             var data = new[] { 1 };
             var cursor = new AsyncCursor<Int32>(data);
 
-            cursor.MoveNext();
-            cursor.MoveNext();
+            using (cursor)
+            {
+                cursor.MoveNext();
+                cursor.MoveNext();
 
-            Action action = () => cursor.MoveNext();
+                Action action = () => cursor.MoveNext();
 
-            action.Should().Throw<InvalidOperationException>();
+                action.Should().Throw<InvalidOperationException>();
+            }
         }
 
         [Fact]
@@ -61,9 +70,12 @@ namespace MongoDB.Fake.Tests
             var data = new[] { 1 };
             var cursor = new AsyncCursor<Int32>(data);
 
-            var moveNextResult = await cursor.MoveNextAsync();
-            moveNextResult.Should().BeTrue();
-            cursor.Current.Should().BeSameAs(data);
+            using (cursor)
+            {
+                var moveNextResult = await cursor.MoveNextAsync();
+                moveNextResult.Should().BeTrue();
+                cursor.Current.Should().BeSameAs(data);
+            }
         }
     }
 }
