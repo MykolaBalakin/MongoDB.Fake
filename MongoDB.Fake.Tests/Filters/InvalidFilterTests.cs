@@ -29,7 +29,7 @@ namespace MongoDB.Fake.Tests.Filters
             var filter = new BsonDocumentFilterDefinition<SimpleTestDocument>(bson);
 
             Action action = () => collection.Find(filter).ToList();
-            action.ShouldThrow<TException>();
+            action.Should().Throw<TException>();
         }
     }
 }
