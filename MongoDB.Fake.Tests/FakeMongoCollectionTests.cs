@@ -26,7 +26,7 @@ namespace MongoDB.Fake.Tests
             var cursor = await collection.FindAsync(d => true);
             var actualDocuments = cursor.ToList();
 
-            actualDocuments.ShouldAllBeEquivalentTo(expectedDocuments);
+            actualDocuments.Should().BeEquivalentTo(expectedDocuments);
         }
 
         [Fact]
@@ -37,10 +37,10 @@ namespace MongoDB.Fake.Tests
 
             var collection = CreateMongoCollection(nameof(FindOneAndDeleteReturnsAndDeletesDocument));
             var actualDeletedDocument = await collection.FindOneAndDeleteAsync(d => d.Id == documentToDelete.Id);
-            var remainedDocumets = collection.Find(d => true).ToList();
+            var remainedDocuments = collection.Find(d => true).ToList();
 
-            actualDeletedDocument.ShouldBeEquivalentTo(documentToDelete);
-            remainedDocumets.ShouldAllBeEquivalentTo(expectedRemainedDocuments);
+            actualDeletedDocument.Should().BeEquivalentTo(documentToDelete);
+            remainedDocuments.Should().BeEquivalentTo(expectedRemainedDocuments);
         }
 
         [Fact]
@@ -51,10 +51,10 @@ namespace MongoDB.Fake.Tests
             var collection = CreateMongoCollection(nameof(FindOneAndDeleteReturnsNullWhenNothingToDelete));
             // TODO: Replace filter to "d => false" when $type operator will be implemented
             var actualDeletedDocument = await collection.FindOneAndDeleteAsync(d => d.Id == Guid.Empty);
-            var remainedDocumets = collection.Find(d => true).ToList();
+            var remainedDocuments = collection.Find(d => true).ToList();
 
             actualDeletedDocument.Should().BeNull();
-            remainedDocumets.ShouldAllBeEquivalentTo(expectedRemainedDocuments);
+            remainedDocuments.Should().BeEquivalentTo(expectedRemainedDocuments);
         }
 
         [Fact]
@@ -71,8 +71,8 @@ namespace MongoDB.Fake.Tests
             var actualOldDocument = await collection.FindOneAndReplaceAsync(d => d.Id == documentToReplace.Id, newDocument);
             var actualAllDocuments = collection.Find(d => true).ToList();
 
-            actualOldDocument.ShouldBeEquivalentTo(documentToReplace);
-            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+            actualOldDocument.Should().BeEquivalentTo(documentToReplace);
+            actualAllDocuments.Should().BeEquivalentTo(expectedAllDocuments);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace MongoDB.Fake.Tests
             var actualAllDocuments = collection.Find(d => true).ToList();
 
             actualOldDocument.Should().BeNull();
-            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+            actualAllDocuments.Should().BeEquivalentTo(expectedAllDocuments);
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace MongoDB.Fake.Tests
             await collection.InsertOneAsync(newDocument);
             var actualAllDocuments = collection.Find(d => true).ToList();
 
-            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+            actualAllDocuments.Should().BeEquivalentTo(expectedAllDocuments);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace MongoDB.Fake.Tests
             await collection.InsertManyAsync(newDocuments);
             var actualAllDocuments = collection.Find(d => true).ToList();
 
-            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+            actualAllDocuments.Should().BeEquivalentTo(expectedAllDocuments);
         }
 
         [Fact]
@@ -160,8 +160,8 @@ namespace MongoDB.Fake.Tests
             var actualResult = await collection.DeleteOneAsync(d => d.Id == documentIdToDelete);
             var actualAllDocuments = collection.Find(d => true).ToList();
 
-            actualResult.ShouldBeEquivalentTo(expectedResult);
-            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+            actualResult.Should().BeEquivalentTo(expectedResult);
+            actualAllDocuments.Should().BeEquivalentTo(expectedAllDocuments);
         }
 
         [Fact]
@@ -175,8 +175,8 @@ namespace MongoDB.Fake.Tests
             var actualResult = await collection.DeleteOneAsync(d => d.Id == Guid.Empty);
             var actualAllDocuments = collection.Find(d => true).ToList();
 
-            actualResult.ShouldBeEquivalentTo(expectedResult);
-            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+            actualResult.Should().BeEquivalentTo(expectedResult);
+            actualAllDocuments.Should().BeEquivalentTo(expectedAllDocuments);
         }
 
         [Fact]
@@ -191,8 +191,8 @@ namespace MongoDB.Fake.Tests
             var actualResult = await collection.DeleteManyAsync(d => d.IntField == 2);
             var actualAllDocuments = collection.Find(d => true).ToList();
 
-            actualResult.ShouldBeEquivalentTo(expectedResult);
-            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+            actualResult.Should().BeEquivalentTo(expectedResult);
+            actualAllDocuments.Should().BeEquivalentTo(expectedAllDocuments);
         }
 
         [Fact]
@@ -206,8 +206,8 @@ namespace MongoDB.Fake.Tests
             var actualResult = await collection.DeleteManyAsync(d => d.Id == Guid.Empty);
             var actualAllDocuments = collection.Find(d => true).ToList();
 
-            actualResult.ShouldBeEquivalentTo(expectedResult);
-            actualAllDocuments.ShouldAllBeEquivalentTo(expectedAllDocuments);
+            actualResult.Should().BeEquivalentTo(expectedResult);
+            actualAllDocuments.Should().BeEquivalentTo(expectedAllDocuments);
         }
 
         private IMongoCollection<SimpleTestDocument> CreateMongoCollection(string collectionName)

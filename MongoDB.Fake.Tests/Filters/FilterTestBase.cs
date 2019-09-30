@@ -50,7 +50,7 @@ namespace MongoDB.Fake.Tests.Filters
             var expectedResult = testCase.GetExpectedResult().ToList();
 
             var filterDescription = GetFilterDescription(filter);
-            actualResult.ShouldBeEquivalentTo(expectedResult, because: "filter = {0}", becauseArgs: filterDescription);
+            actualResult.Should().BeEquivalentTo(expectedResult, because: "filter = {0}", becauseArgs: filterDescription);
         }
 
         private IMongoCollection<TDocument> CreateMongoCollection(IFilterTestCase<TDocument> testCase)

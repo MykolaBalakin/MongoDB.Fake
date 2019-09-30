@@ -18,7 +18,7 @@ namespace MongoDB.Fake.Tests
                 var c = cursor.Current;
             };
 
-            action.ShouldThrow<InvalidOperationException>();
+            action.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace MongoDB.Fake.Tests
 
             Action action = () => cursor.MoveNext();
 
-            action.ShouldThrow<InvalidOperationException>();
+            action.Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
