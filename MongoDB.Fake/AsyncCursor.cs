@@ -31,7 +31,7 @@ namespace MongoDB.Fake
             {
                 if (_state != AsyncCursorState.Fetched)
                 {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("MoveNext should be called first");
                 }
 
                 return _enumerable;
@@ -49,9 +49,9 @@ namespace MongoDB.Fake
                     _state = AsyncCursorState.Finished;
                     return false;
                 case AsyncCursorState.Finished:
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("Cursor is already finished");
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new InvalidOperationException("Unknown cursor state");
             }
         }
 
@@ -62,6 +62,7 @@ namespace MongoDB.Fake
 
         public void Dispose()
         {
+            // Noting to dispose but the method is required by the interface
         }
     }
 }
