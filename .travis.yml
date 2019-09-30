@@ -1,5 +1,5 @@
 language: csharp
-dotnet: 2.1.802
+dotnet: 2.2.402
 mono: none
 
 solution: MongoDB.Fake.sln
@@ -21,6 +21,7 @@ before_script:
 
 script:
   - set -e
-  - dotnet sonarscanner begin -k:nbalakin_MongoDB.Fake
+  - dotnet sonarscanner begin -k:nbalakin_MongoDB.Fake -d:sonar.cs.opencover.reportsPaths=$TRAVIS_BUILD_DIR/coverage.xml
   - dotnet build
+  - dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput=$TRAVIS_BUILD_DIR/coverage.xml
   - dotnet sonarscanner end
