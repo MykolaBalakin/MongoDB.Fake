@@ -23,5 +23,15 @@ namespace MongoDB.Fake.Tests
             var mongoCollection = new FakeMongoCollection<TDocument>(documentCollection);
             return mongoCollection;
         }
+
+        private IMongoCollection<TDocument> CreateRealMongoCollection(string collectionName, IEnumerable<TDocument> data)
+        {
+            var client = new MongoClient(MongoUrl.Create("mongodb://localhost"));
+            var database = client.GetDatabase("fake-database");
+            database.DropCollection(collectionName);
+            var collection = database.GetCollection<TDocument>(collectionName);
+            collection.InsertMany(data);
+            return collection;
+        }
     }
 }
