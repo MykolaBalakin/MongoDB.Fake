@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Driver;
@@ -38,7 +37,7 @@ namespace MongoDB.Fake
             }
         }
 
-        public Boolean MoveNext(CancellationToken cancellationToken = default(CancellationToken))
+        public bool MoveNext(CancellationToken cancellationToken = default(CancellationToken))
         {
             switch (_state)
             {
@@ -55,7 +54,7 @@ namespace MongoDB.Fake
             }
         }
 
-        public Task<Boolean> MoveNextAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public Task<bool> MoveNextAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.FromResult(MoveNext(cancellationToken));
         }

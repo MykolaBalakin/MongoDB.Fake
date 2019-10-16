@@ -86,7 +86,7 @@ namespace MongoDB.Fake.Filters.Parsers
             return ParseFieldFilter(element);
         }
 
-        private Boolean IsOperator(String s)
+        private bool IsOperator(string s)
         {
             return s.StartsWith("$");
         }

@@ -48,7 +48,7 @@ namespace MongoDB.Fake.Tests.Filters.Cases
             };
         }
 
-        protected FilterDefinition<SimpleTestDocument> JsonFilter(String json)
+        protected FilterDefinition<SimpleTestDocument> JsonFilter(string json)
         {
             var filterDocument = BsonDocument.Parse(json);
             return new BsonDocumentFilterDefinition<SimpleTestDocument>(filterDocument);

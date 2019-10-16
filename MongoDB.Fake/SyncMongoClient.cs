@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -12,16 +11,16 @@ namespace MongoDB.Fake
         public abstract ICluster Cluster { get; }
         public abstract MongoClientSettings Settings { get; }
 
-        public abstract IMongoDatabase GetDatabase(String name, MongoDatabaseSettings settings = null);
+        public abstract IMongoDatabase GetDatabase(string name, MongoDatabaseSettings settings = null);
         public abstract IAsyncCursor<BsonDocument> ListDatabases(CancellationToken cancellationToken = default(CancellationToken));
-        public abstract void DropDatabase(String name, CancellationToken cancellationToken = default(CancellationToken));
+        public abstract void DropDatabase(string name, CancellationToken cancellationToken = default(CancellationToken));
 
         public abstract IMongoClient WithReadConcern(ReadConcern readConcern);
         public abstract IMongoClient WithReadPreference(ReadPreference readPreference);
         public abstract IMongoClient WithWriteConcern(WriteConcern writeConcern);
 
         #region Async methods
-        public Task DropDatabaseAsync(String name, CancellationToken cancellationToken = default(CancellationToken))
+        public Task DropDatabaseAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
         {
             DropDatabase(name, cancellationToken);
             return Task.CompletedTask;

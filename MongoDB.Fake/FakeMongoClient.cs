@@ -9,7 +9,7 @@ namespace MongoDB.Fake
 {
     public class FakeMongoClient : SyncMongoClient
     {
-        private readonly ConcurrentDictionary<String, IMongoDatabase> _databases;
+        private readonly ConcurrentDictionary<string, IMongoDatabase> _databases;
 
         public override ICluster Cluster
         {
@@ -23,7 +23,7 @@ namespace MongoDB.Fake
 
         public FakeMongoClient()
         {
-            _databases = new ConcurrentDictionary<String, IMongoDatabase>();
+            _databases = new ConcurrentDictionary<string, IMongoDatabase>();
         }
 
         public override IMongoDatabase GetDatabase(string name, MongoDatabaseSettings settings = null)
