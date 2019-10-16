@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using MongoDB.Bson;
 
@@ -34,27 +33,27 @@ namespace MongoDB.Fake
             _collectionImplementation.Clear();
         }
 
-        public Boolean Contains(BsonDocument item)
+        public bool Contains(BsonDocument item)
         {
             return _collectionImplementation.Contains(item);
         }
 
-        public void CopyTo(BsonDocument[] array, Int32 arrayIndex)
+        public void CopyTo(BsonDocument[] array, int arrayIndex)
         {
             _collectionImplementation.CopyTo(array, arrayIndex);
         }
 
-        public Boolean Remove(BsonDocument item)
+        public bool Remove(BsonDocument item)
         {
             return _collectionImplementation.Remove(item);
         }
 
-        public Int32 Count
+        public int Count
         {
             get { return _collectionImplementation.Count; }
         }
 
-        public Boolean IsReadOnly
+        public bool IsReadOnly
         {
             get { return _collectionImplementation.IsReadOnly; }
         }

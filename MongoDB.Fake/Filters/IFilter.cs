@@ -1,10 +1,9 @@
-﻿using System;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 
 namespace MongoDB.Fake.Filters
 {
     internal interface IFilter
     {
-        Boolean Filter(BsonValue value);
+        bool Filter(BsonValue value);
     }
 }

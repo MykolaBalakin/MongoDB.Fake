@@ -9,7 +9,7 @@ namespace MongoDB.Fake
     public class FakeMongoDatabase : SyncMongoDatabase
     {
         private readonly FakeMongoClient _client;
-        private readonly ConcurrentDictionary<String, BsonDocumentCollection> _collections;
+        private readonly ConcurrentDictionary<string, BsonDocumentCollection> _collections;
 
         public override IMongoClient Client => _client;
 
@@ -25,7 +25,7 @@ namespace MongoDB.Fake
 
         public FakeMongoDatabase()
         {
-            _collections = new ConcurrentDictionary<String, BsonDocumentCollection>();
+            _collections = new ConcurrentDictionary<string, BsonDocumentCollection>();
         }
 
         internal FakeMongoDatabase(FakeMongoClient client)

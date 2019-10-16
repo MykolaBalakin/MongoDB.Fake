@@ -171,7 +171,7 @@ namespace MongoDB.Fake
             throw new NotImplementedException();
         }
 
-        public override Int64 Count(FilterDefinition<TDocument> filter, CountOptions options = null, CancellationToken cancellationToken = default(CancellationToken))
+        public override long Count(FilterDefinition<TDocument> filter, CountOptions options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var documents = Filter(filter);
             return documents.LongCount();

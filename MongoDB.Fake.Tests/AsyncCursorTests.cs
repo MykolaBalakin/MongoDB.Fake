@@ -12,11 +12,11 @@ namespace MongoDB.Fake.Tests
         public void CurrentThrowsExceptionBeforeMoveNext()
         {
             var data = new[] { 1 };
-            var cursor = new AsyncCursor<Int32>(data);
+            var cursor = new AsyncCursor<int>(data);
 
             using (cursor)
             {
-                Func<IEnumerable<Int32>> func = () => cursor.Current;
+                Func<IEnumerable<int>> func = () => cursor.Current;
                 func.Should().Throw<InvalidOperationException>();
             }
         }
@@ -25,7 +25,7 @@ namespace MongoDB.Fake.Tests
         public void CurrentReturnsDataAfterMoveNext()
         {
             var data = new[] { 1 };
-            var cursor = new AsyncCursor<Int32>(data);
+            var cursor = new AsyncCursor<int>(data);
 
             using (cursor)
             {
@@ -38,7 +38,7 @@ namespace MongoDB.Fake.Tests
         public void MoveNextReturnsFalseAfterDataEnds()
         {
             var data = new[] { 1 };
-            var cursor = new AsyncCursor<Int32>(data);
+            var cursor = new AsyncCursor<int>(data);
 
             using (cursor)
             {
@@ -51,7 +51,7 @@ namespace MongoDB.Fake.Tests
         public void MoveNextThrowsExceptionAfterEnumerationFinishes()
         {
             var data = new[] { 1 };
-            var cursor = new AsyncCursor<Int32>(data);
+            var cursor = new AsyncCursor<int>(data);
 
             using (cursor)
             {
@@ -68,7 +68,7 @@ namespace MongoDB.Fake.Tests
         public async Task CurrentReturnsDataAfterMoveNextAsync()
         {
             var data = new[] { 1 };
-            var cursor = new AsyncCursor<Int32>(data);
+            var cursor = new AsyncCursor<int>(data);
 
             using (cursor)
             {

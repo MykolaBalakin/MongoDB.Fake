@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MongoDB.Fake.Filters
+﻿namespace MongoDB.Fake.Filters
 {
     internal static class Operators
     {

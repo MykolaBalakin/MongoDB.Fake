@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 
 namespace MongoDB.Fake.Filters
 {
@@ -15,7 +13,7 @@ namespace MongoDB.Fake.Filters
             _child = child;
         }
 
-        public Boolean Filter(BsonValue value)
+        public bool Filter(BsonValue value)
         {
             if (TryGetFieldValue(value, out BsonValue fieldValue))
             {
