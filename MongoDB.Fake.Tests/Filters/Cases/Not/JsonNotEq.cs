@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace MongoDB.Fake.Tests.Filters.Cases.Not
 {
@@ -7,8 +6,7 @@ namespace MongoDB.Fake.Tests.Filters.Cases.Not
     {
         public override FilterDefinition<SimpleTestDocument> GetFilter()
         {
-            var filterDocument = BsonDocument.Parse("{IntField:{$not:{$eq:3}}}");
-            return new BsonDocumentFilterDefinition<SimpleTestDocument>(filterDocument);
+            return JsonFilter("{IntField:{$not:{$eq:3}}}");
         }
     }
 }

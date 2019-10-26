@@ -6,8 +6,7 @@ namespace MongoDB.Fake.Tests.Filters.Cases.Empty
     {
         public override FilterDefinition<SimpleTestDocument> GetFilter()
         {
-            var builder = Builders<SimpleTestDocument>.Filter;
-            return builder.Empty;
+            return FilterBuilder.Empty;
         }
     }
 }

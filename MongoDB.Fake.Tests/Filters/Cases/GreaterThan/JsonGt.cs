@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace MongoDB.Fake.Tests.Filters.Cases.GreaterThan
 {
@@ -7,8 +6,7 @@ namespace MongoDB.Fake.Tests.Filters.Cases.GreaterThan
     {
         public override FilterDefinition<SimpleTestDocument> GetFilter()
         {
-            var filterDocument = BsonDocument.Parse("{IntField:{$gt:2}}");
-            return new BsonDocumentFilterDefinition<SimpleTestDocument>(filterDocument);
+            return JsonFilter("{IntField:{$gt:2}}");
         }
     }
 }

@@ -6,10 +6,9 @@ namespace MongoDB.Fake.Tests.Filters.Cases.And
     {
         public override FilterDefinition<SimpleTestDocument> GetFilter()
         {
-            var filterBuilder = Builders<SimpleTestDocument>.Filter;
-            return filterBuilder.And(
-                filterBuilder.Where(d => d.IntField == 2),
-                filterBuilder.Where(d => d.StringField == "string value")
+            return FilterBuilder.And(
+                FilterBuilder.Where(d => d.IntField == 2),
+                FilterBuilder.Where(d => d.StringField == "string value")
             );
         }
     }

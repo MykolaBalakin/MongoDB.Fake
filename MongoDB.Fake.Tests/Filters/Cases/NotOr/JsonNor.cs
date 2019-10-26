@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace MongoDB.Fake.Tests.Filters.Cases.NotOr
 {
@@ -7,8 +6,7 @@ namespace MongoDB.Fake.Tests.Filters.Cases.NotOr
     {
         public override FilterDefinition<SimpleTestDocument> GetFilter()
         {
-            var filterDocument = BsonDocument.Parse("{$nor:[{IntField:1},{StringField:\"another value\"}]}");
-            return new BsonDocumentFilterDefinition<SimpleTestDocument>(filterDocument);
+            return JsonFilter("{$nor:[{IntField:1},{StringField:\"another value\"}]}");
         }
     }
 }
