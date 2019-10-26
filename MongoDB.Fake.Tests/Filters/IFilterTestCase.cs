@@ -5,6 +5,7 @@ namespace MongoDB.Fake.Tests.Filters
 {
     public interface IFilterTestCase<TDocument>
     {
+        bool ThrowsException { get; }
         FilterDefinition<TDocument> GetFilter();
         IEnumerable<TDocument> GetTestData();
         IEnumerable<TDocument> GetExpectedResult();

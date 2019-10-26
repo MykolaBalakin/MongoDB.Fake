@@ -9,6 +9,7 @@ namespace MongoDB.Fake.Tests.Filters.Cases
     {
         protected FilterDefinitionBuilder<SimpleTestDocument> FilterBuilder => Builders<SimpleTestDocument>.Filter;
 
+        public virtual bool ThrowsException => false;
         public abstract FilterDefinition<SimpleTestDocument> GetFilter();
         public abstract IEnumerable<SimpleTestDocument> GetExpectedResult();
 

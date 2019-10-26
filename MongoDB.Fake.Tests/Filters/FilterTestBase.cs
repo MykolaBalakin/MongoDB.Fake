@@ -46,11 +46,20 @@ namespace MongoDB.Fake.Tests.Filters
             var collection = CreateMongoCollection(testCase);
 
             var filter = testCase.GetFilter();
-            var actualResult = collection.Find(filter).ToList();
-            var expectedResult = testCase.GetExpectedResult().ToList();
 
-            var filterDescription = GetFilterDescription(filter);
-            actualResult.Should().BeEquivalentTo(expectedResult, because: "filter = {0}", becauseArgs: filterDescription);
+            if (testCase.ThrowsException)
+            {
+                Func<object> action = () => collection.Find(filter).ToList();
+                action.Should().Throw<Exception>();
+            }
+            else
+            {
+                var actualResult = collection.Find(filter).ToList();
+                var expectedResult = testCase.GetExpectedResult().ToList();
+
+                var filterDescription = GetFilterDescription(filter);
+                actualResult.Should().BeEquivalentTo(expectedResult, because: "filter = {0}", becauseArgs: filterDescription);
+            }
         }
 
         private IMongoCollection<TDocument> CreateMongoCollection(IFilterTestCase<TDocument> testCase)
@@ -60,6 +69,7 @@ namespace MongoDB.Fake.Tests.Filters
             {
                 collectionName = collectionName.Substring("MongoDB.Fake.Tests.Filters.Cases.".Length);
             }
+
             return _mongoCollectionProvider.GetCollection(collectionName, testCase.GetTestData());
         }
 
