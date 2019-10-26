@@ -6,8 +6,7 @@ namespace MongoDB.Fake.Tests.Filters.Cases.LessThan
     {
         public override FilterDefinition<SimpleTestDocument> GetFilter()
         {
-            var filterBuilder = Builders<SimpleTestDocument>.Filter;
-            return filterBuilder.Lt(d => d.IntField, 2);
+            return FilterBuilder.Lt(d => d.IntField, 2);
         }
     }
 }

@@ -6,8 +6,7 @@ namespace MongoDB.Fake.Tests.Filters.Cases.Or
     {
         public override FilterDefinition<SimpleTestDocument> GetFilter()
         {
-            var filterBuilder = Builders<SimpleTestDocument>.Filter;
-            return filterBuilder.Where(d => d.IntField == 1 || d.StringField == "another value");
+            return FilterBuilder.Where(d => d.IntField == 1 || d.StringField == "another value");
         }
     }
 }
