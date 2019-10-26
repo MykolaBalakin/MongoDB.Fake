@@ -15,5 +15,6 @@
         public const string Not = "$not";
 
         public const string In = "$in";
+        public const string Nin = "$nin";
     }
 }
