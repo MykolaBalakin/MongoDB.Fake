@@ -43,6 +43,8 @@ namespace MongoDB.Fake
 
         public override IMongoClient WithReadConcern(ReadConcern readConcern)
         {
+            readConcern = null;
+            readConcern.ToString();
             throw new NotImplementedException();
         }
 
